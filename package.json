@@ -1,0 +1,34 @@
+{
+  "name": "ssd-create-website",
+  "version": "1.0.0",
+  "description": "SSD Create - Creative Technology Studio Website",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8001",
+    "dev": "python3 -m http.server 8001",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "keywords": [
+    "creative",
+    "technology",
+    "visual-mapping",
+    "mobile-apps",
+    "consultancy",
+    "barcelona"
+  ],
+  "authors": [
+    {
+      "name": "Lars Dorn",
+      "role": "Founder & Creative Director"
+    },
+    {
+      "name": "Liri Saikoski (4ri)",
+      "role": "Founder & Technology Lead"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ssdcreate/website"
+  }
+}

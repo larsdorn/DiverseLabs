@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSD Create - Visual Technology Studio</title>
+    <link rel="stylesheet" href="styles.css?v=20260413-image-positioning-fix">
+    <style>
+        /* ── Hero brand: terminal command-line style ── */
+        #hero .hero-content .hero-logo {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 0.6rem !important;
+            margin-bottom: 2.2rem !important;
+        }
+
+        /* Container: layout only, no fill/gradient here */
+        #hero .hero-content .hero-logo-main {
+            font-family: 'IBM Plex Mono', monospace !important;
+            font-size: clamp(3rem, 9vw, 7rem) !important;
+            font-weight: 900 !important;
+            line-height: 1 !important;
+            letter-spacing: 0.08em !important;
+            text-transform: uppercase !important;
+            color: white !important;
+            -webkit-text-fill-color: unset !important;
+            background: none !important;
+            text-shadow: none !important;
+            position: relative !important;
+            display: inline-flex !important;
+            align-items: baseline !important;
+            gap: 0.28em !important;
+        }
+
+        /* Prompt styling (forced placement rules below) */
+        #hero .hero-content .hero-logo-prompt {
+            font-weight: 400 !important;
+            letter-spacing: 0 !important;
+            color: rgba(200, 200, 200, 0.5) !important;
+            -webkit-text-fill-color: rgba(200, 200, 200, 0.5) !important;
+            background: none !important;
+        }
+
+        /* Force: no prompt on main line, regardless of markup state */
+        #hero .hero-content .hero-logo-main .hero-logo-prompt {
+            display: none !important;
+        }
+
+        /* Studio name — bold, cyan→pink gradient */
+        #hero .hero-content .hero-logo-name {
+            font-weight: 900 !important;
+            background: linear-gradient(90deg, #00ff88, #ff006e) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+        }
+
+        /* Wordmark images: diverse + labs inline */
+        #hero .hero-content .hero-logo-main.hero-logo-wordmark {
+            gap: clamp(0.35rem, 1vw, 0.85rem) !important;
+            align-items: flex-end !important;
+        }
+
+        #hero .hero-content .hero-logo-main.hero-logo-wordmark img {
+            display: block !important;
+            width: auto !important;
+            object-fit: contain !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            filter: brightness(1.35) contrast(1.2) saturate(1.5) !important;
+            mix-blend-mode: screen !important;
+            position: relative !important;
+            z-index: 2 !important;
+        }
+
+        #hero .hero-content .hero-logo-diverse {
+            height: clamp(2.4rem, 8.5vw, 6.2rem) !important;
+        }
+
+        #hero .hero-content .hero-logo-labs {
+            height: clamp(2rem, 7.2vw, 5.2rem) !important;
+            margin-bottom: clamp(0.02rem, 0.2vw, 0.12rem) !important;
+        }
+
+        /* Thin 1px terminal input track after the name */
+        #hero .hero-content .hero-logo-main::after {
+            content: '' !important;
+            position: absolute !important;
+            left: calc(100% + 0.5em) !important;
+            bottom: 0.13em !important;
+            height: 1px !important;
+            width: clamp(3rem, 10vw, 7rem) !important;
+            background: rgba(255, 255, 255, 0.18) !important;
+            box-shadow: none !important;
+        }
+
+        /* Blinking block cursor on main title */
+        #hero .hero-content .hero-logo-main::before {
+            content: '' !important;
+            position: absolute !important;
+            left: calc(100% + 0.5em) !important;
+            bottom: 0.08em !important;
+            width: 0.5ch !important;
+            height: 1.0em !important;
+            background: rgba(255, 255, 255, 0.72) !important;
+            animation: heroCmdCaretBlink 1.1s steps(1, end) infinite !important;
+        }
+
+        @keyframes heroCmdCaretBlink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        /* Creative Tech subtitle */
+        #hero .hero-content .hero-logo-sub {
+            font-family: 'IBM Plex Mono', monospace !important;
+            font-size: clamp(1rem, 2.6vw, 1.9rem) !important;
+            font-weight: 600 !important;
+            line-height: 1.1 !important;
+            letter-spacing: 0.13em !important;
+            text-transform: uppercase !important;
+            color: var(--accent-gray) !important;
+            -webkit-text-fill-color: var(--accent-gray) !important;
+            background: none !important;
+            text-shadow: none !important;
+            position: relative !important;
+            display: inline-flex !important;
+            align-items: baseline !important;
+        }
+
+        /* Force: prompt appears on subtitle line */
+        #hero .hero-content .hero-logo-sub::before {
+            content: '> ' !important;
+            color: rgba(200, 200, 200, 0.5) !important;
+            -webkit-text-fill-color: rgba(200, 200, 200, 0.5) !important;
+            font-weight: 400 !important;
+            letter-spacing: 0 !important;
+            margin-right: 0.18em !important;
+        }
+
+        /* Blinking cursor on subtitle — offset delay so they don't sync */
+        #hero .hero-content .hero-logo-sub::after {
+            content: '' !important;
+            display: inline-block !important;
+            margin-left: 0.4em !important;
+            width: 0.45ch !important;
+            height: 0.85em !important;
+            background: rgba(255, 255, 255, 0.55) !important;
+            vertical-align: baseline !important;
+            animation: heroCmdCaretBlink 1.1s steps(1, end) 0.55s infinite !important;
+        }
+
+        @media (max-width: 768px) {
+            #hero .hero-content .hero-logo-main {
+                font-size: clamp(2rem, 8.4vw, 4.2rem) !important;
+            }
+
+            #hero .hero-content .hero-logo-diverse {
+                height: clamp(1.8rem, 8.2vw, 4rem) !important;
+            }
+
+            #hero .hero-content .hero-logo-labs {
+                height: clamp(1.5rem, 6.8vw, 3.4rem) !important;
+            }
+
+            #hero .hero-content .hero-logo-sub {
+                font-size: clamp(0.85rem, 2.9vw, 1.3rem) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo logo-wordmark">
+                <img class="logo-diverse" src="assets/images/diverse.png" alt="Diverse">
+                <img class="logo-labs" src="assets/images/Labs.png" alt="Labs">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#location">Location</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-video">
+            <video autoplay muted loop playsinline class="hero-bg-video-element">
+                <source src="assets/mapping-introvideo-diverselabs.mp4" type="video/mp4">
+            </video>
+            <div class="hero-bg-video-overlay"></div>
+        </div>
+        <div class="video-container">
+            <video autoplay muted loop class="hero-video">
+                <source src="https://via.placeholder.com/1920x1080?text=SSD+Create" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+        <div class="hero-spiral-square-2" aria-hidden="true"></div>
+        <div class="hero-spiral-square" aria-hidden="true"></div>
+        <div class="hero-content">
+            <div class="hero-logo hero-title-section">
+                <div class="hero-logo-main hero-logo-wordmark">
+                    <img class="hero-logo-diverse" src="assets/images/diverse.png" alt="Diverse">
+                    <img class="hero-logo-labs" src="assets/images/Labs.png" alt="Labs">
+                </div>
+                <div class="hero-logo-sub"><span class="hero-logo-sub-text">Creative Tech</span></div>
+            </div>
+            <p class="hero-subtitle">Visual Mapping • Mobile Apps • Consultancy</p>
+            <div class="scroll-indicator">
+                <span>SCROLL</span>
+                <div class="arrow-down"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <h2 class="section-title">WHAT WE CREATE</h2>
+        </div>
+
+        <div class="services-grid">
+            <!-- Visual Mapping -->
+            <div class="service-card service-card-1" tabindex="0">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1579783902614-e3fb5141b0cb?w=800&h=600&fit=crop" alt="Visual Mapping">
+                </div>
+                <div class="service-content">
+                    <h3>VISUAL MAPPING WITH ARTIFICIAL INTELLIGENCE</h3>
+                    <p class="service-summary">Architectural projections and immersive light experiences coupled with buildings for events and music.</p>
+                    <p class="service-details">From concept and 3D pre-visualization to on-site calibration, we create memorable visual narratives for stages, facades, and public spaces.</p>
+                    <div class="service-ctas">
+                        <a href="#portfolio" class="service-cta service-cta-primary">Learn More</a>
+                        <a href="#contact" class="service-cta service-cta-secondary">Reach Out</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Apps -->
+            <div class="service-card service-card-2" tabindex="0">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=800&h=600&fit=crop" alt="Mobile Apps">
+                </div>
+                <div class="service-content">
+                    <h3>APPS AND SMART PLATFORMS FOR SOCIAL IMPACT</h3>
+                    <p class="service-summary">Mission-driven mobile apps and digital platforms designed to improve access, participation, and real-world outcomes.</p>
+                    <p class="service-details">We combine UX, gamification, and responsible AI to launch products that support communities, education programs, and public-good initiatives.</p>
+                    <div class="service-ctas">
+                        <a href="#portfolio" class="service-cta service-cta-primary">Learn More</a>
+                        <a href="#contact" class="service-cta service-cta-secondary">Reach Out</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Games & Serious Games -->
+            <div class="service-card service-card-3" tabindex="0">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=600&fit=crop" alt="Games and Serious Games">
+                </div>
+                <div class="service-content">
+                    <h3>GAMES, SERIOUS GAMES AND GAMIFICATION</h3>
+                    <p class="service-summary">Game concepts that blend entertainment with strategy for brands, education, and social impact.</p>
+                    <p class="service-details">We create playful systems, interactive narratives, and serious game mechanics that educate, engage, and drive measurable outcomes.</p>
+                    <div class="service-ctas">
+                        <a href="#portfolio" class="service-cta service-cta-primary">Learn More</a>
+                        <a href="#contact" class="service-cta service-cta-secondary">Reach Out</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consultancy -->
+            <div class="service-card service-card-4" tabindex="0">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop" alt="Consultancy">
+                </div>
+                <div class="service-content">
+                    <h3>PORTFOLIOS AND CVS FOR CREATIVE WORKERS</h3>
+                    <p class="service-summary">Career strategy and portfolio consultancy for professionals across creative and technology fields.</p>
+                    <p class="service-details">From CV refinement and positioning to portfolio websites and interview preparation, we help workers present their value with clarity and confidence.</p>
+                    <div class="service-ctas">
+                        <a href="#team" class="service-cta service-cta-primary">Learn More</a>
+                        <a href="#contact" class="service-cta service-cta-secondary">Reach Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team" id="team">
+        <div class="team-card">
+            <div class="team-orbit-container">
+                <!-- Orbital path -->
+                <svg class="orbital-path" viewBox="0 0 600 600">
+                    <circle cx="300" cy="300" r="175" fill="none" stroke="rgba(0, 255, 136, 0.4)" stroke-width="2" stroke-dasharray="8,6"/>
+                </svg>
+
+                <!-- Center point with text -->
+                <div class="orbit-center">
+                    <span class="orbit-center-text">MEET THE FOUNDERS</span>
+                </div>
+
+                <!-- Team members orbiting -->
+                <div class="team-gallery">
+                    <div class="team-member-wrapper orbit-item" style="--orbit-index: 0;">
+                        <div class="team-member-circle">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop" alt="Lars Dorn">
+                        </div>
+                        <div class="member-info">
+                            <h3>LARS DORN</h3>
+                            <p>Founder & Creative Director</p>
+                        </div>
+                    </div>
+
+                    <div class="team-member-wrapper orbit-item" style="--orbit-index: 1;">
+                        <div class="team-member-circle">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop" alt="Liri Saikoski">
+                        </div>
+                        <div class="member-info">
+                            <h3>LIRI SAIKOSKI</h3>
+                            <p>Founder & Technology Lead (4ri)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Makes Us Different Section -->
+    <section class="difference-section" id="difference">
+        <div class="difference-spiral-square-2" aria-hidden="true"></div>
+        <div class="difference-spiral-square" aria-hidden="true"></div>
+        <div class="difference-content">
+            <h2 class="difference-title">
+                <span class="difference-title-code">&lt;what_makes_us_different&gt;</span>
+            </h2>
+        </div>
+        <div class="difference-spacer"></div>
+    </section>
+
+    <!-- Portfolio Showcase -->
+    <section class="portfolio" id="portfolio">
+        <div class="section-header">
+            <h2 class="section-title">PORTFOLIO</h2>
+        </div>
+
+        <div class="portfolio-grid">
+            <div class="portfolio-item portfolio-item-1">
+                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop" alt="Project 1">
+                <div class="portfolio-overlay">
+                    <h4>Project Alpha</h4>
+                </div>
+            </div>
+            <div class="portfolio-item portfolio-item-2">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop" alt="Project 2">
+                <div class="portfolio-overlay">
+                    <h4>Project Beta</h4>
+                </div>
+            </div>
+            <div class="portfolio-item portfolio-item-3">
+                <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop" alt="Project 3">
+                <div class="portfolio-overlay">
+                    <h4>Project Gamma</h4>
+                </div>
+            </div>
+            <div class="portfolio-item portfolio-item-4">
+                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop" alt="Project 4">
+                <div class="portfolio-overlay">
+                    <h4>Project Delta</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location" id="location">
+        <div class="location-image-float">
+            <img src="assets/images/location/barcelona poblenou.png" alt="Barcelona Poblenou" class="location-image">
+        </div>
+        <div class="location-image-float-secondary">
+            <img src="assets/images/location/laclandestinaportada.png" alt="La Clandestina" class="location-image">
+        </div>
+        <div class="location-content">
+            <div class="location-text">
+                <div class="location-headline">
+                    <h2 class="location-based-text">BASED IN</h2>
+                    <h3 class="location-title-vertical">
+                        <div class="location-word-normal">POBLENOU,<br> BARCELONA </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="location-right-side">
+                <div class="location-description-panel">
+                    <h4 class="location-panel-headline">The DiverseLabs are based in the n. 1 tech hub of the mediterranean sea</h4>
+                    <p class="location-panel-text">
+                        Barcelona's Poblenou 22@ is across the top innovation and creative districts in Europe, hosting many of the best minds of our generation. We thrive through collabs with local communities, businesses and associations.
+                    </p>
+                    <p class="location-panel-text">
+                        Our labs operate from the community of La Clandestina, a historical factory building turned creative workspace and cultural association.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <h2 class="section-title">LET'S TALK</h2>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>Get in touch</h3>
+                <p>
+                    <strong>Email:</strong> hello@ssdcreate.com<br>
+                    <strong>Phone:</strong> +34 93 123 4567<br>
+                    <strong>Location:</strong> Poblenou, Barcelona, Spain
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">LinkedIn</a>
+                    <a href="#" class="social-link">Twitter</a>
+                </div>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <label for="name" style="display: none;">Name</label>
+                <input type="text" id="name" placeholder="Your Name" required>
+                <label for="email" style="display: none;">Email</label>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <label for="message" style="display: none;">Message</label>
+                <textarea id="message" placeholder="Your Message" rows="6" required></textarea>
+                <button type="submit" class="submit-btn">SEND</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 SSD Create. All rights reserved.</p>
+            <p>Founded by Lars Dorn & Liri Saikoski (4ri)</p>
+        </div>
+    </footer>
+
+    <script src="script.js?v=20260413-fresh"></script>
+</body>
+</html>
+
